@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Convertisseur Décimal</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <style>
+        /* L'affichage "propre" que tu as validé sur ton site */
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 50px; background-color: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 350px; }
+        h1 { font-size: 1.5em; text-align: center; color: #333; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 20px; padding: 10px; background-color: #e9ecef; border-radius: 5px; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Convertisseur Décimal</h1>
+    <p style="text-align:center; color:#666; font-size:0.9em;">Entrez un nombre entier</p>
+    <input type="number" id="num_input" placeholder="Ex: 255">
+    <button py-click="convertir">Convertir</button>
+    
+    <div id="output" class="result">
+        Résultat s'affichera ici...
+    </div>
+</div>
+
+<script type="py">
+from pyscript import document
+
+def convertir(event):
+    # Récupérer la valeur décimale
+    valeur_str = document.querySelector("#num_input").value.strip()
+    output = document.querySelector("#output")
+    
+    if not valeur_str:
+        output.innerHTML = "Veuillez entrer un nombre."
+        return
+
+    try:
+        # Conversion du texte en nombre entier
+        nombre = int(valeur_str)
+        
+        # Logique de ton premier code :
+        # bin() donne "0b...", hex() donne "0x..."
+        binaire = bin(nombre).replace("0b", "")
+        hexadecimal = hex(nombre).upper().replace("0X", "")
+</html>
