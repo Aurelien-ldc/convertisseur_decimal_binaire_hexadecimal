@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Convertisseur Décimal en Binaire et Hexadécimal</title>
+
+    
+<link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+    <style>
+        /* Styles pour une meilleure lisibilité */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        #resultat_conversion {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        input[type="number"], button {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .footer-image {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .footer-image img {
+            max-width: 150px;
+            height: auto;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+		<label for="programme">Choose a programme:</label>
+
+<select name="programme" id="programme">
+  <option value="Convertisseur Décimal en Binaire et Hexadécimal">Convertisseur Décimal en Binaire et Hexadécimal</option>
+  <option value="Convertisseur Binaire en Décimal et Hexadécimal">Convertisseur Binaire en Décimal et Hexadécimal</option>
+  <option value="Convertisseur Hexadécimal en Binaire et Décimal">Convertisseur Hexadécimal en Binaire et Décimal</option>
+</select>
+		
+    <h1>Convertisseur Décimal en Binaire et Hexadécimal</h1>
+
+    
+    <label for="input_octet">Entrez une valeur décimale (entre 0 et 255) :</label>
+    <input type="number" id="input_octet" min="0" max="255" value="10">
+    
+    
+<button py-click="convertir_octet">Convertir</button>
+
+    <hr>
+    
+    <h2>Résultat de la conversion :</h2>
+    <div id="resultat_conversion">
+        En attente d'une valeur...
+    </div>
+
+    <py-script>
+        # Importation nécessaire pour l'interopérabilité avec le DOM (méthode la plus fiable)
+        import js
+
+        # La fonction Python appelée par py-click="convertir_octet"
+        def convertir_octet(e): 
+            
+            try:
+                # 1. Accès aux éléments HTML via l'API JavaScript standard (js.document.getElementById)
+                input_element = js.document.getElementById("input_octet")
+                output_element = js.document.getElementById("resultat_conversion")
+                
+                octet_str = input_element.value
+                
+                if not octet_str:
+                    output_element.innerHTML = "Erreur : Veuillez entrer une valeur."
+                    return
+                    
+                octet_int = int(octet_str)
+                
+                # Validation de la plage d'un octet (0-255)
+                if not (0 <= octet_int <= 255):
+                    output_element.innerHTML = "Erreur : La valeur décimale doit être comprise entre 0 et 255."
+                    return
+                
+                # Conversions Python natives
+                binaire = bin(octet_int)[2:].zfill(8) # [2:] enlève '0b', zfill(8) assure 8 bits
+                hexa = hex(octet_int)[2:].upper().zfill(2) # [2:] enlève '0x', upper() pour A-F
+
+                # Formatage de la sortie HTML
+                output_html = f"""
+                    <p>Valeur Décimale (Base 10) : <b>{octet_int}</b></p>
+                    <p>Valeur Binaire (Base 2) : <b>{binaire}</b></p>
+                    <p>Valeur Hexadécimale (Base 16) : <b>{hexa}</b></p>
+                """
+                
+                # Écriture du résultat dans l'élément HTML (utilisation de .innerHTML)
+                output_element.innerHTML = output_html
+                
+            except ValueError:
+                # Gestion des erreurs si l'entrée n'est pas un nombre
+                js.document.getElementById("resultat_conversion").innerHTML = "Erreur : Veuillez entrer un nombre entier valide (0-255)."
+            except Exception as error:
+                # Gestion de toute autre erreur imprévue (Syntaxe corrigée ici)
+                js.document.getElementById("resultat_conversion").innerHTML = f"Une erreur inattendue est survenue : {error}"
+
+    </py-script>
+    <div class="footer-image">
+        <p>Propulsé par Python et PyScript</p>
+        
+    </div>
+</body>
+</html>
